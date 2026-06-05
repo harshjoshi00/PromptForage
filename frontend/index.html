@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AI App Compiler — Convert natural language into structured, validated, executable application configurations using a compiler-inspired pipeline.">
+    <title>AI App Compiler — Natural Language to Production Config</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+</head>
+<body>
+    <div class="app-container">
+
+        <!-- ===== Header ===== -->
+        <header class="header">
+            <div class="header-brand">
+                <div class="header-logo">⚡</div>
+                <h1>AI App Compiler</h1>
+            </div>
+        </header>
+
+        <!-- ===== Prompt Input ===== -->
+        <section class="prompt-section" id="prompt-section">
+            <div class="prompt-label">
+                <span>📝</span> Application Description
+            </div>
+            <textarea
+                id="prompt-input"
+                class="prompt-textarea"
+                placeholder="Describe the application you want to build...&#10;&#10;Example: Build a CRM with login, contacts, dashboard, role-based access, and premium plan with payments."
+                spellcheck="false"
+            ></textarea>
+            <div class="prompt-actions">
+                <span class="char-count" id="char-count">0 / 5000</span>
+                <button class="btn btn-primary" id="compile-btn">
+                    ⚡ Compile
+                </button>
+            </div>
+        </section>
+
+        <!-- ===== Quick Prompt Cards ===== -->
+        <section class="prompt-cards" id="prompt-cards">
+            <div class="prompt-cards-label">Quick Start — click to try:</div>
+            <div class="prompt-cards-grid">
+                <button class="prompt-card" data-prompt="Build a CRM with login, contacts management, deal pipeline, dashboard with analytics, role-based access for admin and sales reps, and premium plan with payments. Admins can see all analytics while sales reps only see their own deals.">
+                    <span class="prompt-card-icon">💼</span>
+                    <span class="prompt-card-title">CRM System</span>
+                </button>
+                <button class="prompt-card" data-prompt="Create an e-commerce platform with product catalog, shopping cart, checkout with payment processing, order tracking, user accounts, admin panel for managing products and orders, and a review system where customers can rate products.">
+                    <span class="prompt-card-icon">🛒</span>
+                    <span class="prompt-card-title">E-Commerce</span>
+                </button>
+                <button class="prompt-card" data-prompt="Build a project management tool like a simplified Jira. Features: projects, tasks with status (todo, in-progress, done), task assignment to team members, comments on tasks, and a kanban board view. Admin and member roles.">
+                    <span class="prompt-card-icon">📋</span>
+                    <span class="prompt-card-title">Project Manager</span>
+                </button>
+                <button class="prompt-card" data-prompt="Build a blogging platform where users can write posts with rich text, add categories and tags, and publish or save as drafts. Readers can comment on posts and like them. Authors have a dashboard showing their post analytics. Admin can moderate content.">
+                    <span class="prompt-card-icon">✍️</span>
+                    <span class="prompt-card-title">Blog Platform</span>
+                </button>
+                <button class="prompt-card" data-prompt="Create a healthcare appointment booking system. Patients can search for doctors by specialty, view availability, and book appointments. Doctors can manage their schedule and view patient history. Admin manages the clinic's doctors and departments.">
+                    <span class="prompt-card-icon">🏥</span>
+                    <span class="prompt-card-title">Healthcare</span>
+                </button>
+                <button class="prompt-card" data-prompt="Build me an app">
+                    <span class="prompt-card-icon">🧪</span>
+                    <span class="prompt-card-title">Edge Case</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- ===== Pipeline Progress ===== -->
+        <section class="pipeline-section" id="pipeline-section">
+            <div class="pipeline-stages">
+                <div class="pipeline-stage" data-stage="0">
+                    <div class="stage-indicator"></div>
+                    <div class="stage-number">Stage 1</div>
+                    <div class="stage-name">Lexer</div>
+                    <div class="stage-desc">Intent Extraction</div>
+                    <div class="stage-status">Waiting...</div>
+                </div>
+                <div class="pipeline-connector"><div class="connector-fill"></div></div>
+                <div class="pipeline-stage" data-stage="1">
+                    <div class="stage-indicator"></div>
+                    <div class="stage-number">Stage 2</div>
+                    <div class="stage-name">Parser</div>
+                    <div class="stage-desc">System Design</div>
+                    <div class="stage-status">Waiting...</div>
+                </div>
+                <div class="pipeline-connector"><div class="connector-fill"></div></div>
+                <div class="pipeline-stage" data-stage="2">
+                    <div class="stage-indicator"></div>
+                    <div class="stage-number">Stage 3</div>
+                    <div class="stage-name">IR Generator</div>
+                    <div class="stage-desc">Schema Generation</div>
+                    <div class="stage-status">Waiting...</div>
+                </div>
+                <div class="pipeline-connector"><div class="connector-fill"></div></div>
+                <div class="pipeline-stage" data-stage="3">
+                    <div class="stage-indicator"></div>
+                    <div class="stage-number">Stage 4</div>
+                    <div class="stage-name">Optimizer</div>
+                    <div class="stage-desc">Refinement</div>
+                    <div class="stage-status">Waiting...</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== Output Section ===== -->
+        <section class="output-section" id="output-section">
+            <div class="tabs">
+                <button class="tab active" data-tab="app-spec">📦 Full AppSpec</button>
+                <button class="tab" data-tab="ui">🎨 UI Schema</button>
+                <button class="tab" data-tab="api">🔌 API Schema</button>
+                <button class="tab" data-tab="db">🗄️ DB Schema</button>
+                <button class="tab" data-tab="auth">🔒 Auth</button>
+                <button class="tab" data-tab="metrics">📊 Metrics</button>
+                <button class="tab" data-tab="preview">👁️ Preview</button>
+            </div>
+            <div class="tab-content">
+                <div class="tab-panel active" id="panel-app-spec">
+                    <div id="tab-app-spec" style="position:relative;"></div>
+                </div>
+                <div class="tab-panel" id="panel-ui">
+                    <div id="tab-ui" style="position:relative;"></div>
+                </div>
+                <div class="tab-panel" id="panel-api">
+                    <div id="tab-api" style="position:relative;"></div>
+                </div>
+                <div class="tab-panel" id="panel-db">
+                    <div id="tab-db" style="position:relative;"></div>
+                </div>
+                <div class="tab-panel" id="panel-auth">
+                    <div id="tab-auth" style="position:relative;"></div>
+                </div>
+                <div class="tab-panel" id="panel-metrics">
+                    <div id="tab-metrics"></div>
+                </div>
+                <div class="tab-panel" id="panel-preview">
+                    <div id="tab-preview"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== Footer ===== -->
+        <footer class="footer">
+            <div class="footer-inner">
+                <div class="footer-left">
+                    <span class="footer-logo">⚡</span>
+                    <span>AI App Compiler v1.0.0</span>
+                </div>
+                <div class="footer-right">
+                    <span class="footer-tech">FastAPI</span>
+                    <span class="footer-sep">·</span>
+                    <span class="footer-tech">GPT-4o</span>
+                    <span class="footer-sep">·</span>
+                    <span class="footer-tech">Pydantic</span>
+                    <span class="footer-sep">·</span>
+                    <span class="footer-tech">4-Stage Pipeline</span>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- Scripts -->
+    <script src="/static/js/renderer.js"></script>
+    <script src="/static/js/metrics.js"></script>
+    <script src="/static/js/app.js"></script>
+</body>
+</html>

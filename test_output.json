@@ -1,0 +1,2342 @@
+{
+  "success": true,
+  "app_spec": {
+    "metadata": {
+      "name": "crm_with_login",
+      "description": "Production-ready crm application compiled from: Build a CRM with login, contacts management, deal pipeline, dashboard with analytics, role-based access for admin and sales reps, and premium plan with payments. Admins can see all analytics while sal",
+      "version": "1.0.0",
+      "generated_at": "2026-06-04T17:17:39.960806",
+      "generator_version": "1.0.0",
+      "original_prompt": "Build a CRM with login, contacts management, deal pipeline, dashboard with analytics, role-based access for admin and sales reps, and premium plan with payments. Admins can see all analytics while sales reps only see their own deals.",
+      "assumptions": [
+        "Email-based authentication with JWT tokens",
+        "Role-based access control enforced on all endpoints",
+        "UTC timezone for all timestamps",
+        "Simulated database using localStorage for demo"
+      ]
+    },
+    "ui": {
+      "pages": [
+        {
+          "name": "dashboard",
+          "route": "/dashboard",
+          "title": "Dashboard",
+          "layout": "grid",
+          "components": [
+            {
+              "id": "dashboard_stats",
+              "type": "stats",
+              "title": "Overview",
+              "data_source": "",
+              "fields": [
+                {
+                  "name": "total_contacts",
+                  "label": "Total Contacts",
+                  "type": "number",
+                  "required": false,
+                  "options": []
+                },
+                {
+                  "name": "total_deals",
+                  "label": "Total Deals",
+                  "type": "number",
+                  "required": false,
+                  "options": []
+                },
+                {
+                  "name": "total_interactions",
+                  "label": "Total Interactions",
+                  "type": "number",
+                  "required": false,
+                  "options": []
+                }
+              ],
+              "actions": []
+            }
+          ],
+          "access_roles": [
+            "admin",
+            "sales_rep"
+          ],
+          "is_public": false
+        },
+        {
+          "name": "contacts_management",
+          "route": "/contacts_management",
+          "title": "Contacts Management",
+          "layout": "stack",
+          "components": [
+            {
+              "id": "contact_table",
+              "type": "table",
+              "title": "Contacts",
+              "data_source": "/api/v1/contacts",
+              "fields": [
+                {
+                  "name": "first_name",
+                  "label": "First Name",
+                  "type": "text",
+                  "required": true,
+                  "options": []
+                },
+                {
+                  "name": "last_name",
+                  "label": "Last Name",
+                  "type": "text",
+                  "required": true,
+                  "options": []
+                },
+                {
+                  "name": "email",
+                  "label": "Email",
+                  "type": "email",
+                  "required": false,
+                  "options": []
+                },
+                {
+                  "name": "phone",
+                  "label": "Phone",
+                  "type": "tel",
+                  "required": false,
+                  "options": []
+                },
+                {
+                  "name": "company",
+                  "label": "Company",
+                  "type": "text",
+                  "required": false,
+                  "options": []
+                },
+                {
+                  "name": "status",
+                  "label": "Status",
+                  "type": "text",
+                  "required": true,
+                  "options": []
+                }
+              ],
+              "actions": [
+                "create",
+                "view",
+                "edit",
+                "delete"
+              ]
+            },
+            {
+              "id": "contact_form",
+              "type": "form",
+              "title": "Add Contact",
+              "data_source": "/api/v1/contacts",
+              "fields": [
+                {
+                  "name": "first_name",
+                  "label": "First Name",
+                  "type": "text",
+                  "required": true,
+                  "options": []
+                },
+                {
+                  "name": "last_name",
+                  "label": "Last Name",
+                  "type": "text",
+                  "required": true,
+                  "options": []
+                },
+                {
+                  "name": "email",
+                  "label": "Email",
+                  "type": "email",
+                  "required": false,
+                  "options": []
+                },
+                {
+                  "name": "phone",
+                  "label": "Phone",
+                  "type": "tel",
+                  "required": false,
+                  "options": []
+                },
+                {
+                  "name": "company",
+                  "label": "Company",
+                  "type": "text",
+                  "required": false,
+                  "options": []
+                },
+                {
+                  "name": "status",
+                  "label": "Status",
+                  "type": "text",
+                  "required": true,
+                  "options": []
+                }
+              ],
+              "actions": [
+                "create"
+              ]
+            }
+          ],
+          "access_roles": [
+            "admin",
+            "sales_rep"
+          ],
+          "is_public": false
+        },
+        {
+          "name": "deals_management",
+          "route": "/deals_management",
+          "title": "Deals Management",
+          "layout": "stack",
+          "components": [
+            {
+              "id": "deal_table",
+              "type": "table",
+              "title": "Deals",
+              "data_source": "/api/v1/deals",
+              "fields": [
+                {
+                  "name": "title",
+                  "label": "Title",
+                  "type": "text",
+                  "required": true,
+                  "options": []
+                },
+                {
+                  "name": "value",
+                  "label": "Value",
+                  "type": "number",
+                  "required": true,
+                  "options": []
+                },
+                {
+                  "name": "stage",
+                  "label": "Stage",
+                  "type": "text",
+                  "required": true,
+                  "options": []
+                },
+                {
+                  "name": "contact_id",
+                  "label": "Contact Id",
+                  "type": "text",
+                  "required": false,
+                  "options": []
+                },
+                {
+                  "name": "user_id",
+                  "label": "User Id",
+                  "type": "text",
+                  "required": true,
+                  "options": []
+                }
+              ],
+              "actions": [
+                "create",
+                "view",
+                "edit",
+                "delete"
+              ]
+            },
+            {
+              "id": "deal_form",
+              "type": "form",
+              "title": "Add Deal",
+              "data_source": "/api/v1/deals",
+              "fields": [
+                {
+                  "name": "title",
+                  "label": "Title",
+                  "type": "text",
+                  "required": true,
+                  "options": []
+                },
+                {
+                  "name": "value",
+                  "label": "Value",
+                  "type": "number",
+                  "required": true,
+                  "options": []
+                },
+                {
+                  "name": "stage",
+                  "label": "Stage",
+                  "type": "text",
+                  "required": true,
+                  "options": []
+                },
+                {
+                  "name": "contact_id",
+                  "label": "Contact Id",
+                  "type": "text",
+                  "required": false,
+                  "options": []
+                }
+              ],
+              "actions": [
+                "create"
+              ]
+            }
+          ],
+          "access_roles": [
+            "admin",
+            "sales_rep"
+          ],
+          "is_public": false
+        },
+        {
+          "name": "interactions_management",
+          "route": "/interactions_management",
+          "title": "Interactions Management",
+          "layout": "stack",
+          "components": [
+            {
+              "id": "interaction_table",
+              "type": "table",
+              "title": "Interactions",
+              "data_source": "/api/v1/interactions",
+              "fields": [
+                {
+                  "name": "name",
+                  "label": "Name",
+                  "type": "text",
+                  "required": true,
+                  "options": []
+                },
+                {
+                  "name": "description",
+                  "label": "Description",
+                  "type": "textarea",
+                  "required": false,
+                  "options": []
+                },
+                {
+                  "name": "status",
+                  "label": "Status",
+                  "type": "text",
+                  "required": true,
+                  "options": []
+                },
+                {
+                  "name": "user_id",
+                  "label": "User Id",
+                  "type": "text",
+                  "required": true,
+                  "options": []
+                }
+              ],
+              "actions": [
+                "create",
+                "view",
+                "edit",
+                "delete"
+              ]
+            },
+            {
+              "id": "interaction_form",
+              "type": "form",
+              "title": "Add Interaction",
+              "data_source": "/api/v1/interactions",
+              "fields": [
+                {
+                  "name": "name",
+                  "label": "Name",
+                  "type": "text",
+                  "required": true,
+                  "options": []
+                },
+                {
+                  "name": "description",
+                  "label": "Description",
+                  "type": "textarea",
+                  "required": false,
+                  "options": []
+                },
+                {
+                  "name": "status",
+                  "label": "Status",
+                  "type": "text",
+                  "required": true,
+                  "options": []
+                }
+              ],
+              "actions": [
+                "create"
+              ]
+            }
+          ],
+          "access_roles": [
+            "admin",
+            "sales_rep"
+          ],
+          "is_public": false
+        },
+        {
+          "name": "settings",
+          "route": "/settings",
+          "title": "Settings",
+          "layout": "stack",
+          "components": [
+            {
+              "id": "settings_form",
+              "type": "form",
+              "title": "Account Settings",
+              "data_source": "/api/v1/users",
+              "fields": [
+                {
+                  "name": "full_name",
+                  "label": "Full Name",
+                  "type": "text",
+                  "required": true,
+                  "options": []
+                },
+                {
+                  "name": "email",
+                  "label": "Email",
+                  "type": "email",
+                  "required": true,
+                  "options": []
+                }
+              ],
+              "actions": [
+                "edit"
+              ]
+            }
+          ],
+          "access_roles": [
+            "admin",
+            "sales_rep"
+          ],
+          "is_public": false
+        },
+        {
+          "name": "login",
+          "route": "/login",
+          "title": "Login",
+          "layout": "stack",
+          "components": [
+            {
+              "id": "login_form",
+              "type": "form",
+              "title": "Sign In",
+              "data_source": "/api/v1/auth/login",
+              "fields": [
+                {
+                  "name": "email",
+                  "label": "Email",
+                  "type": "email",
+                  "required": true,
+                  "options": []
+                },
+                {
+                  "name": "password",
+                  "label": "Password",
+                  "type": "password",
+                  "required": true,
+                  "options": []
+                }
+              ],
+              "actions": [
+                "create"
+              ]
+            }
+          ],
+          "access_roles": [],
+          "is_public": true
+        }
+      ],
+      "navigation": [
+        {
+          "name": "Dashboard",
+          "route": "/dashboard",
+          "icon": "home"
+        },
+        {
+          "name": "Contacts Management",
+          "route": "/contacts_management",
+          "icon": "list"
+        },
+        {
+          "name": "Deals Management",
+          "route": "/deals_management",
+          "icon": "list"
+        },
+        {
+          "name": "Interactions Management",
+          "route": "/interactions_management",
+          "icon": "list"
+        },
+        {
+          "name": "Settings",
+          "route": "/settings",
+          "icon": "settings"
+        }
+      ],
+      "theme": "default"
+    },
+    "api": {
+      "base_path": "/api/v1",
+      "endpoints": [
+        {
+          "path": "/api/v1/auth/login",
+          "method": "POST",
+          "summary": "Authenticate user and return JWT token",
+          "request_params": [
+            {
+              "name": "email",
+              "type": "string",
+              "required": true,
+              "location": "body"
+            },
+            {
+              "name": "password",
+              "type": "string",
+              "required": true,
+              "location": "body"
+            }
+          ],
+          "response_fields": [
+            {
+              "name": "token",
+              "type": "string"
+            },
+            {
+              "name": "user",
+              "type": "object"
+            }
+          ],
+          "auth_required": false,
+          "allowed_roles": [
+            "admin",
+            "sales_rep"
+          ],
+          "entity": "User"
+        },
+        {
+          "path": "/api/v1/users",
+          "method": "GET",
+          "summary": "List all User records with pagination",
+          "request_params": [
+            {
+              "name": "page",
+              "type": "integer",
+              "required": false,
+              "location": "query"
+            },
+            {
+              "name": "limit",
+              "type": "integer",
+              "required": false,
+              "location": "query"
+            }
+          ],
+          "response_fields": [
+            {
+              "name": "id",
+              "type": "uuid"
+            },
+            {
+              "name": "created_at",
+              "type": "datetime"
+            },
+            {
+              "name": "updated_at",
+              "type": "datetime"
+            },
+            {
+              "name": "email",
+              "type": "email"
+            },
+            {
+              "name": "password_hash",
+              "type": "password"
+            },
+            {
+              "name": "full_name",
+              "type": "string"
+            },
+            {
+              "name": "role",
+              "type": "string"
+            },
+            {
+              "name": "is_active",
+              "type": "boolean"
+            }
+          ],
+          "auth_required": true,
+          "allowed_roles": [
+            "admin",
+            "sales_rep"
+          ],
+          "entity": "User"
+        },
+        {
+          "path": "/api/v1/users/:id",
+          "method": "GET",
+          "summary": "Get a single User by ID",
+          "request_params": [
+            {
+              "name": "id",
+              "type": "string",
+              "required": true,
+              "location": "path"
+            }
+          ],
+          "response_fields": [
+            {
+              "name": "id",
+              "type": "uuid"
+            },
+            {
+              "name": "created_at",
+              "type": "datetime"
+            },
+            {
+              "name": "updated_at",
+              "type": "datetime"
+            },
+            {
+              "name": "email",
+              "type": "email"
+            },
+            {
+              "name": "password_hash",
+              "type": "password"
+            },
+            {
+              "name": "full_name",
+              "type": "string"
+            },
+            {
+              "name": "role",
+              "type": "string"
+            },
+            {
+              "name": "is_active",
+              "type": "boolean"
+            }
+          ],
+          "auth_required": true,
+          "allowed_roles": [
+            "admin",
+            "sales_rep"
+          ],
+          "entity": "User"
+        },
+        {
+          "path": "/api/v1/users",
+          "method": "POST",
+          "summary": "Create a new User",
+          "request_params": [
+            {
+              "name": "email",
+              "type": "email",
+              "required": true,
+              "location": "body"
+            },
+            {
+              "name": "password_hash",
+              "type": "password",
+              "required": true,
+              "location": "body"
+            },
+            {
+              "name": "full_name",
+              "type": "string",
+              "required": true,
+              "location": "body"
+            },
+            {
+              "name": "role",
+              "type": "string",
+              "required": true,
+              "location": "body"
+            },
+            {
+              "name": "is_active",
+              "type": "boolean",
+              "required": true,
+              "location": "body"
+            }
+          ],
+          "response_fields": [
+            {
+              "name": "id",
+              "type": "uuid"
+            },
+            {
+              "name": "created_at",
+              "type": "datetime"
+            },
+            {
+              "name": "updated_at",
+              "type": "datetime"
+            },
+            {
+              "name": "email",
+              "type": "email"
+            },
+            {
+              "name": "password_hash",
+              "type": "password"
+            },
+            {
+              "name": "full_name",
+              "type": "string"
+            },
+            {
+              "name": "role",
+              "type": "string"
+            },
+            {
+              "name": "is_active",
+              "type": "boolean"
+            }
+          ],
+          "auth_required": true,
+          "allowed_roles": [
+            "admin",
+            "sales_rep"
+          ],
+          "entity": "User"
+        },
+        {
+          "path": "/api/v1/users/:id",
+          "method": "PUT",
+          "summary": "Update an existing User",
+          "request_params": [
+            {
+              "name": "id",
+              "type": "string",
+              "required": true,
+              "location": "path"
+            },
+            {
+              "name": "email",
+              "type": "email",
+              "required": true,
+              "location": "body"
+            },
+            {
+              "name": "password_hash",
+              "type": "password",
+              "required": true,
+              "location": "body"
+            },
+            {
+              "name": "full_name",
+              "type": "string",
+              "required": true,
+              "location": "body"
+            },
+            {
+              "name": "role",
+              "type": "string",
+              "required": true,
+              "location": "body"
+            },
+            {
+              "name": "is_active",
+              "type": "boolean",
+              "required": true,
+              "location": "body"
+            }
+          ],
+          "response_fields": [
+            {
+              "name": "id",
+              "type": "uuid"
+            },
+            {
+              "name": "created_at",
+              "type": "datetime"
+            },
+            {
+              "name": "updated_at",
+              "type": "datetime"
+            },
+            {
+              "name": "email",
+              "type": "email"
+            },
+            {
+              "name": "password_hash",
+              "type": "password"
+            },
+            {
+              "name": "full_name",
+              "type": "string"
+            },
+            {
+              "name": "role",
+              "type": "string"
+            },
+            {
+              "name": "is_active",
+              "type": "boolean"
+            }
+          ],
+          "auth_required": true,
+          "allowed_roles": [
+            "admin",
+            "sales_rep"
+          ],
+          "entity": "User"
+        },
+        {
+          "path": "/api/v1/users/:id",
+          "method": "DELETE",
+          "summary": "Delete a User",
+          "request_params": [
+            {
+              "name": "id",
+              "type": "string",
+              "required": true,
+              "location": "path"
+            }
+          ],
+          "response_fields": [
+            {
+              "name": "success",
+              "type": "boolean"
+            }
+          ],
+          "auth_required": true,
+          "allowed_roles": [
+            "admin"
+          ],
+          "entity": "User"
+        },
+        {
+          "path": "/api/v1/contacts",
+          "method": "GET",
+          "summary": "List all Contact records with pagination",
+          "request_params": [
+            {
+              "name": "page",
+              "type": "integer",
+              "required": false,
+              "location": "query"
+            },
+            {
+              "name": "limit",
+              "type": "integer",
+              "required": false,
+              "location": "query"
+            }
+          ],
+          "response_fields": [
+            {
+              "name": "id",
+              "type": "uuid"
+            },
+            {
+              "name": "created_at",
+              "type": "datetime"
+            },
+            {
+              "name": "updated_at",
+              "type": "datetime"
+            },
+            {
+              "name": "first_name",
+              "type": "string"
+            },
+            {
+              "name": "last_name",
+              "type": "string"
+            },
+            {
+              "name": "email",
+              "type": "email"
+            },
+            {
+              "name": "phone",
+              "type": "phone"
+            },
+            {
+              "name": "company",
+              "type": "string"
+            },
+            {
+              "name": "status",
+              "type": "string"
+            }
+          ],
+          "auth_required": true,
+          "allowed_roles": [
+            "admin",
+            "sales_rep"
+          ],
+          "entity": "Contact"
+        },
+        {
+          "path": "/api/v1/contacts/:id",
+          "method": "GET",
+          "summary": "Get a single Contact by ID",
+          "request_params": [
+            {
+              "name": "id",
+              "type": "string",
+              "required": true,
+              "location": "path"
+            }
+          ],
+          "response_fields": [
+            {
+              "name": "id",
+              "type": "uuid"
+            },
+            {
+              "name": "created_at",
+              "type": "datetime"
+            },
+            {
+              "name": "updated_at",
+              "type": "datetime"
+            },
+            {
+              "name": "first_name",
+              "type": "string"
+            },
+            {
+              "name": "last_name",
+              "type": "string"
+            },
+            {
+              "name": "email",
+              "type": "email"
+            },
+            {
+              "name": "phone",
+              "type": "phone"
+            },
+            {
+              "name": "company",
+              "type": "string"
+            },
+            {
+              "name": "status",
+              "type": "string"
+            }
+          ],
+          "auth_required": true,
+          "allowed_roles": [
+            "admin",
+            "sales_rep"
+          ],
+          "entity": "Contact"
+        },
+        {
+          "path": "/api/v1/contacts",
+          "method": "POST",
+          "summary": "Create a new Contact",
+          "request_params": [
+            {
+              "name": "first_name",
+              "type": "string",
+              "required": true,
+              "location": "body"
+            },
+            {
+              "name": "last_name",
+              "type": "string",
+              "required": true,
+              "location": "body"
+            },
+            {
+              "name": "email",
+              "type": "email",
+              "required": false,
+              "location": "body"
+            },
+            {
+              "name": "phone",
+              "type": "phone",
+              "required": false,
+              "location": "body"
+            },
+            {
+              "name": "company",
+              "type": "string",
+              "required": false,
+              "location": "body"
+            },
+            {
+              "name": "status",
+              "type": "string",
+              "required": true,
+              "location": "body"
+            }
+          ],
+          "response_fields": [
+            {
+              "name": "id",
+              "type": "uuid"
+            },
+            {
+              "name": "created_at",
+              "type": "datetime"
+            },
+            {
+              "name": "updated_at",
+              "type": "datetime"
+            },
+            {
+              "name": "first_name",
+              "type": "string"
+            },
+            {
+              "name": "last_name",
+              "type": "string"
+            },
+            {
+              "name": "email",
+              "type": "email"
+            },
+            {
+              "name": "phone",
+              "type": "phone"
+            },
+            {
+              "name": "company",
+              "type": "string"
+            },
+            {
+              "name": "status",
+              "type": "string"
+            }
+          ],
+          "auth_required": true,
+          "allowed_roles": [
+            "admin",
+            "sales_rep"
+          ],
+          "entity": "Contact"
+        },
+        {
+          "path": "/api/v1/contacts/:id",
+          "method": "PUT",
+          "summary": "Update an existing Contact",
+          "request_params": [
+            {
+              "name": "id",
+              "type": "string",
+              "required": true,
+              "location": "path"
+            },
+            {
+              "name": "first_name",
+              "type": "string",
+              "required": true,
+              "location": "body"
+            },
+            {
+              "name": "last_name",
+              "type": "string",
+              "required": true,
+              "location": "body"
+            },
+            {
+              "name": "email",
+              "type": "email",
+              "required": false,
+              "location": "body"
+            },
+            {
+              "name": "phone",
+              "type": "phone",
+              "required": false,
+              "location": "body"
+            },
+            {
+              "name": "company",
+              "type": "string",
+              "required": false,
+              "location": "body"
+            },
+            {
+              "name": "status",
+              "type": "string",
+              "required": true,
+              "location": "body"
+            }
+          ],
+          "response_fields": [
+            {
+              "name": "id",
+              "type": "uuid"
+            },
+            {
+              "name": "created_at",
+              "type": "datetime"
+            },
+            {
+              "name": "updated_at",
+              "type": "datetime"
+            },
+            {
+              "name": "first_name",
+              "type": "string"
+            },
+            {
+              "name": "last_name",
+              "type": "string"
+            },
+            {
+              "name": "email",
+              "type": "email"
+            },
+            {
+              "name": "phone",
+              "type": "phone"
+            },
+            {
+              "name": "company",
+              "type": "string"
+            },
+            {
+              "name": "status",
+              "type": "string"
+            }
+          ],
+          "auth_required": true,
+          "allowed_roles": [
+            "admin",
+            "sales_rep"
+          ],
+          "entity": "Contact"
+        },
+        {
+          "path": "/api/v1/contacts/:id",
+          "method": "DELETE",
+          "summary": "Delete a Contact",
+          "request_params": [
+            {
+              "name": "id",
+              "type": "string",
+              "required": true,
+              "location": "path"
+            }
+          ],
+          "response_fields": [
+            {
+              "name": "success",
+              "type": "boolean"
+            }
+          ],
+          "auth_required": true,
+          "allowed_roles": [
+            "admin"
+          ],
+          "entity": "Contact"
+        },
+        {
+          "path": "/api/v1/deals",
+          "method": "GET",
+          "summary": "List all Deal records with pagination",
+          "request_params": [
+            {
+              "name": "page",
+              "type": "integer",
+              "required": false,
+              "location": "query"
+            },
+            {
+              "name": "limit",
+              "type": "integer",
+              "required": false,
+              "location": "query"
+            }
+          ],
+          "response_fields": [
+            {
+              "name": "id",
+              "type": "uuid"
+            },
+            {
+              "name": "created_at",
+              "type": "datetime"
+            },
+            {
+              "name": "updated_at",
+              "type": "datetime"
+            },
+            {
+              "name": "title",
+              "type": "string"
+            },
+            {
+              "name": "value",
+              "type": "float"
+            },
+            {
+              "name": "stage",
+              "type": "string"
+            },
+            {
+              "name": "contact_id",
+              "type": "uuid"
+            },
+            {
+              "name": "user_id",
+              "type": "uuid"
+            }
+          ],
+          "auth_required": true,
+          "allowed_roles": [
+            "admin",
+            "sales_rep"
+          ],
+          "entity": "Deal"
+        },
+        {
+          "path": "/api/v1/deals/:id",
+          "method": "GET",
+          "summary": "Get a single Deal by ID",
+          "request_params": [
+            {
+              "name": "id",
+              "type": "string",
+              "required": true,
+              "location": "path"
+            }
+          ],
+          "response_fields": [
+            {
+              "name": "id",
+              "type": "uuid"
+            },
+            {
+              "name": "created_at",
+              "type": "datetime"
+            },
+            {
+              "name": "updated_at",
+              "type": "datetime"
+            },
+            {
+              "name": "title",
+              "type": "string"
+            },
+            {
+              "name": "value",
+              "type": "float"
+            },
+            {
+              "name": "stage",
+              "type": "string"
+            },
+            {
+              "name": "contact_id",
+              "type": "uuid"
+            },
+            {
+              "name": "user_id",
+              "type": "uuid"
+            }
+          ],
+          "auth_required": true,
+          "allowed_roles": [
+            "admin",
+            "sales_rep"
+          ],
+          "entity": "Deal"
+        },
+        {
+          "path": "/api/v1/deals",
+          "method": "POST",
+          "summary": "Create a new Deal",
+          "request_params": [
+            {
+              "name": "title",
+              "type": "string",
+              "required": true,
+              "location": "body"
+            },
+            {
+              "name": "value",
+              "type": "float",
+              "required": true,
+              "location": "body"
+            },
+            {
+              "name": "stage",
+              "type": "string",
+              "required": true,
+              "location": "body"
+            },
+            {
+              "name": "contact_id",
+              "type": "uuid",
+              "required": false,
+              "location": "body"
+            },
+            {
+              "name": "user_id",
+              "type": "uuid",
+              "required": true,
+              "location": "body"
+            }
+          ],
+          "response_fields": [
+            {
+              "name": "id",
+              "type": "uuid"
+            },
+            {
+              "name": "created_at",
+              "type": "datetime"
+            },
+            {
+              "name": "updated_at",
+              "type": "datetime"
+            },
+            {
+              "name": "title",
+              "type": "string"
+            },
+            {
+              "name": "value",
+              "type": "float"
+            },
+            {
+              "name": "stage",
+              "type": "string"
+            },
+            {
+              "name": "contact_id",
+              "type": "uuid"
+            },
+            {
+              "name": "user_id",
+              "type": "uuid"
+            }
+          ],
+          "auth_required": true,
+          "allowed_roles": [
+            "admin",
+            "sales_rep"
+          ],
+          "entity": "Deal"
+        },
+        {
+          "path": "/api/v1/deals/:id",
+          "method": "PUT",
+          "summary": "Update an existing Deal",
+          "request_params": [
+            {
+              "name": "id",
+              "type": "string",
+              "required": true,
+              "location": "path"
+            },
+            {
+              "name": "title",
+              "type": "string",
+              "required": true,
+              "location": "body"
+            },
+            {
+              "name": "value",
+              "type": "float",
+              "required": true,
+              "location": "body"
+            },
+            {
+              "name": "stage",
+              "type": "string",
+              "required": true,
+              "location": "body"
+            },
+            {
+              "name": "contact_id",
+              "type": "uuid",
+              "required": false,
+              "location": "body"
+            },
+            {
+              "name": "user_id",
+              "type": "uuid",
+              "required": true,
+              "location": "body"
+            }
+          ],
+          "response_fields": [
+            {
+              "name": "id",
+              "type": "uuid"
+            },
+            {
+              "name": "created_at",
+              "type": "datetime"
+            },
+            {
+              "name": "updated_at",
+              "type": "datetime"
+            },
+            {
+              "name": "title",
+              "type": "string"
+            },
+            {
+              "name": "value",
+              "type": "float"
+            },
+            {
+              "name": "stage",
+              "type": "string"
+            },
+            {
+              "name": "contact_id",
+              "type": "uuid"
+            },
+            {
+              "name": "user_id",
+              "type": "uuid"
+            }
+          ],
+          "auth_required": true,
+          "allowed_roles": [
+            "admin",
+            "sales_rep"
+          ],
+          "entity": "Deal"
+        },
+        {
+          "path": "/api/v1/deals/:id",
+          "method": "DELETE",
+          "summary": "Delete a Deal",
+          "request_params": [
+            {
+              "name": "id",
+              "type": "string",
+              "required": true,
+              "location": "path"
+            }
+          ],
+          "response_fields": [
+            {
+              "name": "success",
+              "type": "boolean"
+            }
+          ],
+          "auth_required": true,
+          "allowed_roles": [
+            "admin"
+          ],
+          "entity": "Deal"
+        },
+        {
+          "path": "/api/v1/interactions",
+          "method": "GET",
+          "summary": "List all Interaction records with pagination",
+          "request_params": [
+            {
+              "name": "page",
+              "type": "integer",
+              "required": false,
+              "location": "query"
+            },
+            {
+              "name": "limit",
+              "type": "integer",
+              "required": false,
+              "location": "query"
+            }
+          ],
+          "response_fields": [
+            {
+              "name": "id",
+              "type": "uuid"
+            },
+            {
+              "name": "created_at",
+              "type": "datetime"
+            },
+            {
+              "name": "updated_at",
+              "type": "datetime"
+            },
+            {
+              "name": "name",
+              "type": "string"
+            },
+            {
+              "name": "description",
+              "type": "text"
+            },
+            {
+              "name": "status",
+              "type": "string"
+            },
+            {
+              "name": "user_id",
+              "type": "uuid"
+            }
+          ],
+          "auth_required": true,
+          "allowed_roles": [
+            "admin",
+            "sales_rep"
+          ],
+          "entity": "Interaction"
+        },
+        {
+          "path": "/api/v1/interactions/:id",
+          "method": "GET",
+          "summary": "Get a single Interaction by ID",
+          "request_params": [
+            {
+              "name": "id",
+              "type": "string",
+              "required": true,
+              "location": "path"
+            }
+          ],
+          "response_fields": [
+            {
+              "name": "id",
+              "type": "uuid"
+            },
+            {
+              "name": "created_at",
+              "type": "datetime"
+            },
+            {
+              "name": "updated_at",
+              "type": "datetime"
+            },
+            {
+              "name": "name",
+              "type": "string"
+            },
+            {
+              "name": "description",
+              "type": "text"
+            },
+            {
+              "name": "status",
+              "type": "string"
+            },
+            {
+              "name": "user_id",
+              "type": "uuid"
+            }
+          ],
+          "auth_required": true,
+          "allowed_roles": [
+            "admin",
+            "sales_rep"
+          ],
+          "entity": "Interaction"
+        },
+        {
+          "path": "/api/v1/interactions",
+          "method": "POST",
+          "summary": "Create a new Interaction",
+          "request_params": [
+            {
+              "name": "name",
+              "type": "string",
+              "required": true,
+              "location": "body"
+            },
+            {
+              "name": "description",
+              "type": "text",
+              "required": false,
+              "location": "body"
+            },
+            {
+              "name": "status",
+              "type": "string",
+              "required": true,
+              "location": "body"
+            },
+            {
+              "name": "user_id",
+              "type": "uuid",
+              "required": true,
+              "location": "body"
+            }
+          ],
+          "response_fields": [
+            {
+              "name": "id",
+              "type": "uuid"
+            },
+            {
+              "name": "created_at",
+              "type": "datetime"
+            },
+            {
+              "name": "updated_at",
+              "type": "datetime"
+            },
+            {
+              "name": "name",
+              "type": "string"
+            },
+            {
+              "name": "description",
+              "type": "text"
+            },
+            {
+              "name": "status",
+              "type": "string"
+            },
+            {
+              "name": "user_id",
+              "type": "uuid"
+            }
+          ],
+          "auth_required": true,
+          "allowed_roles": [
+            "admin",
+            "sales_rep"
+          ],
+          "entity": "Interaction"
+        },
+        {
+          "path": "/api/v1/interactions/:id",
+          "method": "PUT",
+          "summary": "Update an existing Interaction",
+          "request_params": [
+            {
+              "name": "id",
+              "type": "string",
+              "required": true,
+              "location": "path"
+            },
+            {
+              "name": "name",
+              "type": "string",
+              "required": true,
+              "location": "body"
+            },
+            {
+              "name": "description",
+              "type": "text",
+              "required": false,
+              "location": "body"
+            },
+            {
+              "name": "status",
+              "type": "string",
+              "required": true,
+              "location": "body"
+            },
+            {
+              "name": "user_id",
+              "type": "uuid",
+              "required": true,
+              "location": "body"
+            }
+          ],
+          "response_fields": [
+            {
+              "name": "id",
+              "type": "uuid"
+            },
+            {
+              "name": "created_at",
+              "type": "datetime"
+            },
+            {
+              "name": "updated_at",
+              "type": "datetime"
+            },
+            {
+              "name": "name",
+              "type": "string"
+            },
+            {
+              "name": "description",
+              "type": "text"
+            },
+            {
+              "name": "status",
+              "type": "string"
+            },
+            {
+              "name": "user_id",
+              "type": "uuid"
+            }
+          ],
+          "auth_required": true,
+          "allowed_roles": [
+            "admin",
+            "sales_rep"
+          ],
+          "entity": "Interaction"
+        },
+        {
+          "path": "/api/v1/interactions/:id",
+          "method": "DELETE",
+          "summary": "Delete a Interaction",
+          "request_params": [
+            {
+              "name": "id",
+              "type": "string",
+              "required": true,
+              "location": "path"
+            }
+          ],
+          "response_fields": [
+            {
+              "name": "success",
+              "type": "boolean"
+            }
+          ],
+          "auth_required": true,
+          "allowed_roles": [
+            "admin"
+          ],
+          "entity": "Interaction"
+        }
+      ]
+    },
+    "db": {
+      "tables": [
+        {
+          "name": "users",
+          "columns": [
+            {
+              "name": "id",
+              "type": "UUID",
+              "primary_key": true,
+              "nullable": false,
+              "unique": true,
+              "default": null,
+              "foreign_key": null
+            },
+            {
+              "name": "created_at",
+              "type": "TIMESTAMP",
+              "primary_key": false,
+              "nullable": false,
+              "unique": false,
+              "default": null,
+              "foreign_key": null
+            },
+            {
+              "name": "updated_at",
+              "type": "TIMESTAMP",
+              "primary_key": false,
+              "nullable": false,
+              "unique": false,
+              "default": null,
+              "foreign_key": null
+            },
+            {
+              "name": "email",
+              "type": "VARCHAR(255)",
+              "primary_key": false,
+              "nullable": false,
+              "unique": true,
+              "default": null,
+              "foreign_key": null
+            },
+            {
+              "name": "password_hash",
+              "type": "VARCHAR(255)",
+              "primary_key": false,
+              "nullable": false,
+              "unique": false,
+              "default": null,
+              "foreign_key": null
+            },
+            {
+              "name": "full_name",
+              "type": "VARCHAR(255)",
+              "primary_key": false,
+              "nullable": false,
+              "unique": false,
+              "default": null,
+              "foreign_key": null
+            },
+            {
+              "name": "role",
+              "type": "VARCHAR(255)",
+              "primary_key": false,
+              "nullable": false,
+              "unique": false,
+              "default": "user",
+              "foreign_key": null
+            },
+            {
+              "name": "is_active",
+              "type": "BOOLEAN",
+              "primary_key": false,
+              "nullable": false,
+              "unique": false,
+              "default": "true",
+              "foreign_key": null
+            }
+          ],
+          "indexes": [
+            {
+              "name": "idx_users_email",
+              "columns": [
+                "email"
+              ],
+              "unique": true
+            }
+          ]
+        },
+        {
+          "name": "contacts",
+          "columns": [
+            {
+              "name": "id",
+              "type": "UUID",
+              "primary_key": true,
+              "nullable": false,
+              "unique": true,
+              "default": null,
+              "foreign_key": null
+            },
+            {
+              "name": "created_at",
+              "type": "TIMESTAMP",
+              "primary_key": false,
+              "nullable": false,
+              "unique": false,
+              "default": null,
+              "foreign_key": null
+            },
+            {
+              "name": "updated_at",
+              "type": "TIMESTAMP",
+              "primary_key": false,
+              "nullable": false,
+              "unique": false,
+              "default": null,
+              "foreign_key": null
+            },
+            {
+              "name": "first_name",
+              "type": "VARCHAR(255)",
+              "primary_key": false,
+              "nullable": false,
+              "unique": false,
+              "default": null,
+              "foreign_key": null
+            },
+            {
+              "name": "last_name",
+              "type": "VARCHAR(255)",
+              "primary_key": false,
+              "nullable": false,
+              "unique": false,
+              "default": null,
+              "foreign_key": null
+            },
+            {
+              "name": "email",
+              "type": "VARCHAR(255)",
+              "primary_key": false,
+              "nullable": true,
+              "unique": true,
+              "default": null,
+              "foreign_key": null
+            },
+            {
+              "name": "phone",
+              "type": "VARCHAR(50)",
+              "primary_key": false,
+              "nullable": true,
+              "unique": false,
+              "default": null,
+              "foreign_key": null
+            },
+            {
+              "name": "company",
+              "type": "VARCHAR(255)",
+              "primary_key": false,
+              "nullable": true,
+              "unique": false,
+              "default": null,
+              "foreign_key": null
+            },
+            {
+              "name": "status",
+              "type": "VARCHAR(255)",
+              "primary_key": false,
+              "nullable": false,
+              "unique": false,
+              "default": "active",
+              "foreign_key": null
+            }
+          ],
+          "indexes": [
+            {
+              "name": "idx_contacts_email",
+              "columns": [
+                "email"
+              ],
+              "unique": true
+            }
+          ]
+        },
+        {
+          "name": "deals",
+          "columns": [
+            {
+              "name": "id",
+              "type": "UUID",
+              "primary_key": true,
+              "nullable": false,
+              "unique": true,
+              "default": null,
+              "foreign_key": null
+            },
+            {
+              "name": "created_at",
+              "type": "TIMESTAMP",
+              "primary_key": false,
+              "nullable": false,
+              "unique": false,
+              "default": null,
+              "foreign_key": null
+            },
+            {
+              "name": "updated_at",
+              "type": "TIMESTAMP",
+              "primary_key": false,
+              "nullable": false,
+              "unique": false,
+              "default": null,
+              "foreign_key": null
+            },
+            {
+              "name": "title",
+              "type": "VARCHAR(255)",
+              "primary_key": false,
+              "nullable": false,
+              "unique": false,
+              "default": null,
+              "foreign_key": null
+            },
+            {
+              "name": "value",
+              "type": "DECIMAL(10,2)",
+              "primary_key": false,
+              "nullable": false,
+              "unique": false,
+              "default": null,
+              "foreign_key": null
+            },
+            {
+              "name": "stage",
+              "type": "VARCHAR(255)",
+              "primary_key": false,
+              "nullable": false,
+              "unique": false,
+              "default": "prospect",
+              "foreign_key": null
+            },
+            {
+              "name": "contact_id",
+              "type": "UUID",
+              "primary_key": false,
+              "nullable": true,
+              "unique": false,
+              "default": null,
+              "foreign_key": "contacts.id"
+            },
+            {
+              "name": "user_id",
+              "type": "UUID",
+              "primary_key": false,
+              "nullable": false,
+              "unique": false,
+              "default": null,
+              "foreign_key": "users.id"
+            }
+          ],
+          "indexes": [
+            {
+              "name": "idx_deals_contact_id",
+              "columns": [
+                "contact_id"
+              ],
+              "unique": false
+            },
+            {
+              "name": "idx_deals_user_id",
+              "columns": [
+                "user_id"
+              ],
+              "unique": false
+            }
+          ]
+        },
+        {
+          "name": "interactions",
+          "columns": [
+            {
+              "name": "id",
+              "type": "UUID",
+              "primary_key": true,
+              "nullable": false,
+              "unique": true,
+              "default": null,
+              "foreign_key": null
+            },
+            {
+              "name": "created_at",
+              "type": "TIMESTAMP",
+              "primary_key": false,
+              "nullable": false,
+              "unique": false,
+              "default": null,
+              "foreign_key": null
+            },
+            {
+              "name": "updated_at",
+              "type": "TIMESTAMP",
+              "primary_key": false,
+              "nullable": false,
+              "unique": false,
+              "default": null,
+              "foreign_key": null
+            },
+            {
+              "name": "name",
+              "type": "VARCHAR(255)",
+              "primary_key": false,
+              "nullable": false,
+              "unique": false,
+              "default": null,
+              "foreign_key": null
+            },
+            {
+              "name": "description",
+              "type": "TEXT",
+              "primary_key": false,
+              "nullable": true,
+              "unique": false,
+              "default": null,
+              "foreign_key": null
+            },
+            {
+              "name": "status",
+              "type": "VARCHAR(255)",
+              "primary_key": false,
+              "nullable": false,
+              "unique": false,
+              "default": "active",
+              "foreign_key": null
+            },
+            {
+              "name": "user_id",
+              "type": "UUID",
+              "primary_key": false,
+              "nullable": false,
+              "unique": false,
+              "default": null,
+              "foreign_key": "users.id"
+            }
+          ],
+          "indexes": [
+            {
+              "name": "idx_interactions_user_id",
+              "columns": [
+                "user_id"
+              ],
+              "unique": false
+            }
+          ]
+        }
+      ]
+    },
+    "auth": {
+      "roles": [
+        {
+          "name": "admin",
+          "display_name": "Admin",
+          "is_default": false,
+          "inherits_from": null
+        },
+        {
+          "name": "sales_rep",
+          "display_name": "Sales Rep",
+          "is_default": true,
+          "inherits_from": null
+        }
+      ],
+      "rules": [
+        {
+          "role": "admin",
+          "resource": "User",
+          "actions": [
+            "create",
+            "read",
+            "update",
+            "delete"
+          ],
+          "conditions": []
+        },
+        {
+          "role": "admin",
+          "resource": "Contact",
+          "actions": [
+            "create",
+            "read",
+            "update",
+            "delete"
+          ],
+          "conditions": []
+        },
+        {
+          "role": "admin",
+          "resource": "Deal",
+          "actions": [
+            "create",
+            "read",
+            "update",
+            "delete"
+          ],
+          "conditions": []
+        },
+        {
+          "role": "admin",
+          "resource": "Interaction",
+          "actions": [
+            "create",
+            "read",
+            "update",
+            "delete"
+          ],
+          "conditions": []
+        },
+        {
+          "role": "sales_rep",
+          "resource": "User",
+          "actions": [
+            "read",
+            "create",
+            "update"
+          ],
+          "conditions": [
+            "own_records_only"
+          ]
+        },
+        {
+          "role": "sales_rep",
+          "resource": "Contact",
+          "actions": [
+            "read",
+            "create",
+            "update"
+          ],
+          "conditions": [
+            "own_records_only"
+          ]
+        },
+        {
+          "role": "sales_rep",
+          "resource": "Deal",
+          "actions": [
+            "read",
+            "create",
+            "update"
+          ],
+          "conditions": [
+            "own_records_only"
+          ]
+        },
+        {
+          "role": "sales_rep",
+          "resource": "Interaction",
+          "actions": [
+            "read",
+            "create",
+            "update"
+          ],
+          "conditions": [
+            "own_records_only"
+          ]
+        }
+      ],
+      "session_type": "jwt",
+      "password_hashing": "bcrypt"
+    },
+    "business_logic": [
+      {
+        "name": "ownership_enforcement",
+        "description": "Non-admin users can only access their own records",
+        "condition": "user.role != 'admin'",
+        "action": "Filter records by user_id = current_user.id",
+        "entities_involved": [
+          "Contact",
+          "Deal",
+          "Interaction"
+        ]
+      },
+      {
+        "name": "auto_timestamps",
+        "description": "Automatically set created_at and updated_at on record changes",
+        "condition": "on_create OR on_update",
+        "action": "Set created_at/updated_at to current UTC time",
+        "entities_involved": [
+          "User",
+          "Contact",
+          "Deal",
+          "Interaction"
+        ]
+      },
+      {
+        "name": "cascade_delete",
+        "description": "Deleting a parent record cascades to child records",
+        "condition": "on_delete of parent entity",
+        "action": "Delete all child records referencing the deleted parent",
+        "entities_involved": [
+          "User",
+          "Contact",
+          "Deal",
+          "Interaction"
+        ]
+      }
+    ]
+  },
+  "pipeline": {
+    "stages": [
+      {
+        "stage": "stage_1_lexer",
+        "success": true,
+        "validation_errors": 0,
+        "repair_attempts": 0,
+        "latency_ms": 13.84,
+        "errors": []
+      },
+      {
+        "stage": "stage_2_parser",
+        "success": true,
+        "validation_errors": 0,
+        "repair_attempts": 0,
+        "latency_ms": 14.47,
+        "errors": []
+      },
+      {
+        "stage": "stage_3_ir_generator",
+        "success": true,
+        "validation_errors": 0,
+        "repair_attempts": 0,
+        "latency_ms": 19.57,
+        "errors": []
+      },
+      {
+        "stage": "stage_4_optimizer",
+        "success": true,
+        "validation_errors": 0,
+        "repair_attempts": 0,
+        "latency_ms": 24.54,
+        "errors": []
+      }
+    ],
+    "total_latency_ms": 173.82
+  },
+  "cost": {
+    "total_calls": 0,
+    "repair_calls": 0,
+    "total_tokens": 0,
+    "total_cost_usd": 0,
+    "total_latency_ms": 0,
+    "per_stage": {}
+  },
+  "runtime": {
+    "is_executable": true,
+    "checks_passed": 16,
+    "checks_failed": 0,
+    "checks": [
+      {
+        "name": "code_generation",
+        "passed": true,
+        "details": "Generated 18091 bytes of HTML"
+      },
+      {
+        "name": "html_structure_doctype_declaration",
+        "passed": true,
+        "details": "DOCTYPE declaration"
+      },
+      {
+        "name": "html_structure_html_root_element",
+        "passed": true,
+        "details": "HTML root element"
+      },
+      {
+        "name": "html_structure_head_section",
+        "passed": true,
+        "details": "HEAD section"
+      },
+      {
+        "name": "html_structure_body_section",
+        "passed": true,
+        "details": "BODY section"
+      },
+      {
+        "name": "html_structure_closing_html_tag",
+        "passed": true,
+        "details": "Closing HTML tag"
+      },
+      {
+        "name": "html_structure_title_element",
+        "passed": true,
+        "details": "Title element"
+      },
+      {
+        "name": "page_rendered_dashboard",
+        "passed": true,
+        "details": "Page 'dashboard' found in HTML"
+      },
+      {
+        "name": "page_rendered_contacts_management",
+        "passed": true,
+        "details": "Page 'contacts_management' found in HTML"
+      },
+      {
+        "name": "page_rendered_deals_management",
+        "passed": true,
+        "details": "Page 'deals_management' found in HTML"
+      },
+      {
+        "name": "page_rendered_interactions_management",
+        "passed": true,
+        "details": "Page 'interactions_management' found in HTML"
+      },
+      {
+        "name": "page_rendered_settings",
+        "passed": true,
+        "details": "Page 'settings' found in HTML"
+      },
+      {
+        "name": "page_rendered_login",
+        "passed": true,
+        "details": "Page 'login' found in HTML"
+      },
+      {
+        "name": "navigation_present",
+        "passed": true,
+        "details": "Navigation section found"
+      },
+      {
+        "name": "forms_generated",
+        "passed": true,
+        "details": "Expected 5 forms, found 5"
+      },
+      {
+        "name": "no_undefined_refs",
+        "passed": true,
+        "details": "Found 0 'undefined' references"
+      }
+    ],
+    "generated_files": [
+      "D:\\THE AI SIGNAL TASK\\generated_apps\\crm_with_login.html"
+    ],
+    "errors": []
+  },
+  "error": null
+}

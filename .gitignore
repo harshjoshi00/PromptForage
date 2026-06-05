@@ -1,0 +1,35 @@
+# Dependencies
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+*.egg
+.eggs/
+
+# Environment
+.env
+.venv/
+venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Generated
+generated_apps/*.html
+backend/evaluation/results/*.json
+
+# Node (if any)
+node_modules/
