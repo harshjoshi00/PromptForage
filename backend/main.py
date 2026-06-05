@@ -30,13 +30,13 @@ logger = logging.getLogger(__name__)
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """Startup and shutdown events."""
-    logger.info("[START] AI App Compiler starting up...")
+    logger.info("[START] PromptForge starting up...")
     yield
-    logger.info("[STOP] AI App Compiler shutting down.")
+    logger.info("[STOP] PromptForge shutting down.")
 
 
 app = FastAPI(
-    title="AI App Compiler",
+    title="PromptForge",
     description="Compiler-like pipeline: Natural Language → Structured Config → Validated → Executable App",
     version="1.0.0",
     lifespan=lifespan,
