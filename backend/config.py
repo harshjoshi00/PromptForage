@@ -11,11 +11,25 @@ load_dotenv()
 
 # --- Paths ---
 BASE_DIR = Path(__file__).resolve().parent.parent
-GENERATED_APPS_DIR = BASE_DIR / "generated_apps"
-EVAL_RESULTS_DIR = BASE_DIR / "backend" / "evaluation" / "results"
 
-GENERATED_APPS_DIR.mkdir(exist_ok=True)
-EVAL_RESULTS_DIR.mkdir(parents=True, exist_ok=True)
+# Check if we are running in Vercel's serverless environment
+IS_VERCEL = "VERCEL" in os.environ or "AWS_LAMBDA_FUNCTION_NAME" in os.environ
+
+if IS_VERCEL:
+    GENERATED_APPS_DIR = Path("/tmp") / "generated_apps"
+    EVAL_RESULTS_DIR = Path("/tmp") / "results"
+else:
+    GENERATED_APPS_DIR = BASE_DIR / "generated_apps"
+    EVAL_RESULTS_DIR = BASE_DIR / "backend" / "evaluation" / "results"
+
+# Ensure directories exist (Vercel allows mkdir in /tmp, but local environment might need them in root)
+try:
+    GENERATED_APPS_DIR.mkdir(parents=True, exist_ok=True)
+    EVAL_RESULTS_DIR.mkdir(parents=True, exist_ok=True)
+except Exception as e:
+    import logging
+    logging.getLogger(__name__).warning(f"Could not create directory: {e}")
+
 
 # --- OpenAI ---
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")

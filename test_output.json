@@ -5,7 +5,7 @@
       "name": "crm_with_login",
       "description": "Production-ready crm application compiled from: Build a CRM with login, contacts management, deal pipeline, dashboard with analytics, role-based access for admin and sales reps, and premium plan with payments. Admins can see all analytics while sal",
       "version": "1.0.0",
-      "generated_at": "2026-06-04T17:17:39.960806",
+      "generated_at": "2026-06-05T08:43:42.506814",
       "generator_version": "1.0.0",
       "original_prompt": "Build a CRM with login, contacts management, deal pipeline, dashboard with analytics, role-based access for admin and sales reps, and premium plan with payments. Admins can see all analytics while sales reps only see their own deals.",
       "assumptions": [
@@ -2209,7 +2209,7 @@
         "success": true,
         "validation_errors": 0,
         "repair_attempts": 0,
-        "latency_ms": 13.84,
+        "latency_ms": 46.61,
         "errors": []
       },
       {
@@ -2217,7 +2217,7 @@
         "success": true,
         "validation_errors": 0,
         "repair_attempts": 0,
-        "latency_ms": 14.47,
+        "latency_ms": 12.78,
         "errors": []
       },
       {
@@ -2225,7 +2225,7 @@
         "success": true,
         "validation_errors": 0,
         "repair_attempts": 0,
-        "latency_ms": 19.57,
+        "latency_ms": 17.12,
         "errors": []
       },
       {
@@ -2233,11 +2233,11 @@
         "success": true,
         "validation_errors": 0,
         "repair_attempts": 0,
-        "latency_ms": 24.54,
+        "latency_ms": 7.23,
         "errors": []
       }
     ],
-    "total_latency_ms": 173.82
+    "total_latency_ms": 100.44
   },
   "cost": {
     "total_calls": 0,
@@ -2255,7 +2255,7 @@
       {
         "name": "code_generation",
         "passed": true,
-        "details": "Generated 18091 bytes of HTML"
+        "details": "Generated 18183 bytes of HTML"
       },
       {
         "name": "html_structure_doctype_declaration",

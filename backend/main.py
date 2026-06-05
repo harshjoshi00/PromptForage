@@ -6,6 +6,8 @@ Provides endpoints for prompt compilation, evaluation, and health checks.
 from __future__ import annotations
 import logging
 import sys
+import os
+from pathlib import Path
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, HTTPException
@@ -17,6 +19,12 @@ from pydantic import BaseModel, Field
 from backend.config import CORS_ORIGINS, GENERATED_APPS_DIR
 from backend.pipeline.orchestrator import PipelineOrchestrator
 from backend.runtime.simulator import RuntimeSimulator
+
+# Resolve paths relative to this file so they work regardless of CWD
+_HERE = Path(__file__).resolve().parent
+_ROOT = _HERE.parent
+_FRONTEND_DIR = _ROOT / "frontend"
+_FRONTEND_INDEX = _FRONTEND_DIR / "index.html"
 
 # Configure logging
 logging.basicConfig(
@@ -51,11 +59,14 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Serve frontend
-app.mount("/static", StaticFiles(directory="frontend"), name="static")
+# Serve frontend static assets using absolute path (local dev only).
+# On Vercel, static files are served via CDN routes in vercel.json.
+if _FRONTEND_DIR.exists():
+    app.mount("/static", StaticFiles(directory=str(_FRONTEND_DIR)), name="static")
 
 
 # ============= Request / Response Models =============
+
 
 class CompileRequest(BaseModel):
     prompt: str = Field(
@@ -86,7 +97,7 @@ class HealthResponse(BaseModel):
 @app.get("/", response_class=FileResponse)
 async def serve_frontend():
     """Serve the frontend UI."""
-    return FileResponse("frontend/index.html")
+    return FileResponse(str(_FRONTEND_INDEX))
 
 
 @app.get("/health", response_model=HealthResponse)
@@ -144,8 +155,7 @@ async def compile_app(request: CompileRequest):
 @app.get("/api/preview/{app_name}", response_class=HTMLResponse)
 async def preview_app(app_name: str):
     """Serve a generated app preview."""
-    import os
-    filepath = os.path.join(str(GENERATED_APPS_DIR), f"{app_name}.html")
+    filepath = str(GENERATED_APPS_DIR / f"{app_name}.html")
     if not os.path.exists(filepath):
         raise HTTPException(status_code=404, detail="Generated app not found")
     with open(filepath, "r", encoding="utf-8") as f:
@@ -161,14 +171,23 @@ async def get_evaluation_results():
 
     results_path = os.path.join(str(EVAL_RESULTS_DIR), "latest_evaluation.json")
     if not os.path.exists(results_path):
-        raise HTTPException(
-            status_code=404,
-            detail="No evaluation results found. Run an evaluation first.",
+        # Fallback to repository path for pre-compiled evaluation
+        repo_results_path = os.path.join(
+            str(Path(__file__).resolve().parent / "evaluation" / "results"),
+            "latest_evaluation.json"
         )
+        if os.path.exists(repo_results_path):
+            results_path = repo_results_path
+        else:
+            raise HTTPException(
+                status_code=404,
+                detail="No evaluation results found. Run an evaluation first.",
+            )
 
     with open(results_path, "r", encoding="utf-8") as f:
         data = json.load(f)
     return data
+
 
 
 @app.post("/api/evaluation/run")

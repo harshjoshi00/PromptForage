@@ -224,7 +224,7 @@ class PipelineOrchestrator:
             report = validate(raw_data, stage_name)
 
             if report.is_valid:
-                logger.info(f"[Pipeline] {stage_name} PASSED gate ✓")
+                logger.info(f"[Pipeline] {stage_name} PASSED gate [OK]")
                 return StageResult(
                     stage=stage_name,
                     success=True,
@@ -238,7 +238,7 @@ class PipelineOrchestrator:
 
             # Gate FAILED — enter repair loop
             logger.warning(
-                f"[Pipeline] {stage_name} FAILED gate ✗ — "
+                f"[Pipeline] {stage_name} FAILED gate [FAIL] — "
                 f"{report.error_count} errors. Entering repair..."
             )
 
@@ -255,7 +255,7 @@ class PipelineOrchestrator:
                 # Re-parse the repaired data through the model
                 repaired_model = model_class.model_validate(repair_result.data)
                 logger.info(
-                    f"[Pipeline] {stage_name} REPAIRED ✓ "
+                    f"[Pipeline] {stage_name} REPAIRED [OK] "
                     f"({repair_result.attempts} attempts)"
                 )
                 return StageResult(
@@ -269,7 +269,7 @@ class PipelineOrchestrator:
                     errors=[],
                 )
             else:
-                logger.error(f"[Pipeline] {stage_name} REPAIR FAILED ✗")
+                logger.error(f"[Pipeline] {stage_name} REPAIR FAILED [FAIL]")
                 final_errors = []
                 if repair_result.final_report:
                     final_errors = [e.model_dump() for e in repair_result.final_report.errors]

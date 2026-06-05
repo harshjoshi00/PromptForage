@@ -2,8 +2,11 @@
   "version": 2,
   "builds": [
     {
-      "src": "backend/main.py",
-      "use": "@vercel/python"
+      "src": "api/index.py",
+      "use": "@vercel/python",
+      "config": {
+        "maxLambdaSize": "50mb"
+      }
     },
     {
       "src": "frontend/**",
@@ -12,16 +15,20 @@
   ],
   "routes": [
     {
-      "src": "/api/(.*)",
-      "dest": "backend/main.py"
+      "src": "/static/(.*)",
+      "dest": "/frontend/$1"
     },
     {
-      "src": "/static/(.*)",
-      "dest": "frontend/$1"
+      "src": "^/(api|health)(.*)",
+      "dest": "/api/index.py"
+    },
+    {
+      "src": "^/$",
+      "dest": "/api/index.py"
     },
     {
       "src": "/(.*)",
-      "dest": "frontend/index.html"
+      "dest": "/frontend/index.html"
     }
   ]
 }
