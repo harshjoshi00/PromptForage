@@ -230,7 +230,7 @@ def check_intent_semantics(data: dict, report: ValidationReport) -> None:
 
     if is_very_vague:
         report.add_error(
-            ErrorCategory.SEMANTIC, ErrorSeverity.CRITICAL,
+            ErrorCategory.SEMANTIC, ErrorSeverity.WARNING,
             f"Vague Prompt Error: The compiler cannot determine what kind of application to build. "
             f"Found: {', '.join(vague_reasons)}.",
             layer="intent", field_path="original_prompt",
@@ -259,7 +259,7 @@ def check_intent_semantics(data: dict, report: ValidationReport) -> None:
 
     if is_conflicting:
         report.add_error(
-            ErrorCategory.SEMANTIC, ErrorSeverity.CRITICAL,
+            ErrorCategory.SEMANTIC, ErrorSeverity.WARNING,
             f"Contradictory Requirements: The prompt contains logical contradictions. "
             f"Found: {', '.join(conflict_reasons)}.",
             layer="intent", field_path="original_prompt",

@@ -38,11 +38,18 @@ RULES:
 1. Extract ALL features mentioned or implied. Be thorough.
 2. Identify ALL entities (data objects) needed. Include User entity always.
 3. If roles are mentioned, extract them. If not, default to ["admin", "user"].
-4. If something is ambiguous, make a reasonable assumption and document it.
-5. If requirements conflict, note it in ambiguities_detected.
-6. features array must have at least 1 item.
-7. entities array must have at least 1 item.
-8. ONLY output JSON. No markdown, no explanation, no code fences."""
+4. AMBIGUITY & VAGUENESS RESOLUTION (DO NOT COMPLAIN OR FAIL):
+   - If the user prompt is extremely vague or short (e.g., "build a website", "make an app", "CRM"), DO NOT fail or return empty lists.
+   - Instead, extrapolate a creative and fully functional standard application that fits the intent (e.g., for "website", design a blog portal with homepage, articles page, and contact page; for "CRM", design contacts, leads, and analytics).
+   - Document these default choices in the "assumptions" array.
+5. CONTRADICTION RESOLUTION:
+   - If requirements conflict or are contradictory (e.g., "no login but admin-only pages exist"), resolve the contradiction logically (e.g., enable authentication so admin-only pages can work).
+   - Document this resolution in "assumptions" and note the original conflict in "ambiguities_detected".
+6. OFF-TOPIC PROMPTS:
+   - If the user prompt is completely off-topic (e.g., "explain photosynthesis" or "how to bake a cake"), creatively adapt it into a software application context. For example, design a "Photosynthesis Learning Platform" or a "Cake Recipe Catalog App" with appropriate features and database entities.
+7. features array must have at least 1 item.
+8. entities array must have at least 1 item.
+9. ONLY output JSON. No markdown, no explanation, no code fences. """
 
 
 STAGE_1_USER = """Parse the following application description into structured intent:

@@ -524,7 +524,12 @@ def _field_type_to_ui_type(ftype: str) -> str:
 
 def get_mock_response(stage: str, user_prompt: str) -> dict[str, Any]:
     """Generate a schema-valid mock response for the given pipeline stage."""
-    base_stage = stage[:-7] if stage.endswith("_repair") else stage
+    if stage.endswith("_repair"):
+        base_stage = stage[:-7]
+    elif stage.endswith("_refine"):
+        base_stage = stage[:-7]
+    else:
+        base_stage = stage
     info = parse_prompt_info(user_prompt)
     app_name = info["app_name"]
     app_type = info["app_type"]

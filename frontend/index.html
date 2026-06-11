@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="PromptForge — Convert natural language into structured, validated, executable application configurations using a compiler-inspired pipeline.">
-    <title>PromptForge — Natural Language to Production Config</title>
+    <meta name="description" content="PromptForge — Convert natural language into structured, validated, executable application configurations using a 4-stage interactive pipeline.">
+    <title>PromptForge — Interactive App Compiler</title>
     <link rel="stylesheet" href="/static/css/styles.css">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
 </head>
@@ -19,10 +19,10 @@
             </div>
         </header>
 
-        <!-- ===== Prompt Input ===== -->
+        <!-- ===== Initial Prompt Section (visible before pipeline) ===== -->
         <section class="prompt-section" id="prompt-section">
             <div class="prompt-label">
-                <span>📝</span> Application Description
+                <span>📝</span> Describe Your Application
             </div>
             <textarea
                 id="prompt-input"
@@ -33,7 +33,7 @@
             <div class="prompt-actions">
                 <span class="char-count" id="char-count">0 / 5000</span>
                 <button class="btn btn-primary" id="compile-btn">
-                    ⚡ Compile
+                    ⚡ Start Pipeline
                 </button>
             </div>
         </section>
@@ -69,44 +69,103 @@
             </div>
         </section>
 
-        <!-- ===== Pipeline Progress ===== -->
-        <section class="pipeline-section" id="pipeline-section">
-            <div class="pipeline-stages">
-                <div class="pipeline-stage" data-stage="0">
-                    <div class="stage-indicator"></div>
-                    <div class="stage-number">Stage 1</div>
-                    <div class="stage-name">Lexer</div>
-                    <div class="stage-desc">Intent Extraction</div>
-                    <div class="stage-status">Waiting...</div>
+        <!-- ===== Stage Stepper ===== -->
+        <section class="stage-stepper" id="stage-stepper">
+            <div class="stepper-track">
+                <div class="stepper-step" data-step="0">
+                    <div class="stepper-circle">1</div>
+                    <div class="stepper-label">Lexer</div>
+                    <div class="stepper-sublabel">Features</div>
                 </div>
-                <div class="pipeline-connector"><div class="connector-fill"></div></div>
-                <div class="pipeline-stage" data-stage="1">
-                    <div class="stage-indicator"></div>
-                    <div class="stage-number">Stage 2</div>
-                    <div class="stage-name">Parser</div>
-                    <div class="stage-desc">System Design</div>
-                    <div class="stage-status">Waiting...</div>
+                <div class="stepper-connector" data-connector="0"></div>
+                <div class="stepper-step" data-step="1">
+                    <div class="stepper-circle">2</div>
+                    <div class="stepper-label">Parser</div>
+                    <div class="stepper-sublabel">Design</div>
                 </div>
-                <div class="pipeline-connector"><div class="connector-fill"></div></div>
-                <div class="pipeline-stage" data-stage="2">
-                    <div class="stage-indicator"></div>
-                    <div class="stage-number">Stage 3</div>
-                    <div class="stage-name">IR Generator</div>
-                    <div class="stage-desc">Schema Generation</div>
-                    <div class="stage-status">Waiting...</div>
+                <div class="stepper-connector" data-connector="1"></div>
+                <div class="stepper-step" data-step="2">
+                    <div class="stepper-circle">3</div>
+                    <div class="stepper-label">IR Gen</div>
+                    <div class="stepper-sublabel">Schema</div>
                 </div>
-                <div class="pipeline-connector"><div class="connector-fill"></div></div>
-                <div class="pipeline-stage" data-stage="3">
-                    <div class="stage-indicator"></div>
-                    <div class="stage-number">Stage 4</div>
-                    <div class="stage-name">Optimizer</div>
-                    <div class="stage-desc">Refinement</div>
-                    <div class="stage-status">Waiting...</div>
+                <div class="stepper-connector" data-connector="2"></div>
+                <div class="stepper-step" data-step="3">
+                    <div class="stepper-circle">4</div>
+                    <div class="stepper-label">Optimizer</div>
+                    <div class="stepper-sublabel">AppSpec</div>
                 </div>
             </div>
         </section>
 
-        <!-- ===== Output Section ===== -->
+        <!-- ===== Pipeline Workspace (Split Pane) ===== -->
+        <div class="pipeline-workspace" id="pipeline-workspace">
+
+            <!-- Left: System Artifacts -->
+            <div class="artifact-pane" id="artifact-pane">
+                <div class="artifact-header">
+                    <div class="artifact-header-left">
+                        <div class="artifact-icon" id="artifact-icon">🔍</div>
+                        <div>
+                            <div class="artifact-title" id="artifact-title">Feature Extraction</div>
+                            <div class="artifact-subtitle" id="artifact-subtitle">Stage 1 — Lexer</div>
+                        </div>
+                    </div>
+                    <div class="artifact-badge" id="artifact-badge">
+                        <span class="spinner" style="width:10px;height:10px;border-width:1.5px;"></span>
+                        Processing
+                    </div>
+                </div>
+                <div class="artifact-body" id="artifact-body">
+                    <div class="artifact-body-loading" id="artifact-loading">
+                        <div class="spinner spinner-lg"></div>
+                        <div class="loading-text">Extracting features from your description...</div>
+                    </div>
+                    <!-- Dynamic content injected here -->
+                </div>
+            </div>
+
+            <!-- Right: User Feedback & Controls -->
+            <div class="feedback-pane" id="feedback-pane">
+
+                <!-- Stage Info -->
+                <div class="stage-info-card" id="stage-info-card">
+                    <div class="stage-info-header">
+                        <div class="stage-info-number" id="stage-info-number">1</div>
+                        <div class="stage-info-title" id="stage-info-title">Feature Selection</div>
+                    </div>
+                    <div class="stage-info-desc" id="stage-info-desc">
+                        Review the extracted features. Toggle features on/off to customize your application. Deselected features will not be included.
+                    </div>
+                    <div class="stage-info-tip" id="stage-info-tip">
+                        <span class="tip-icon">💡</span>
+                        <span>Click on features to select/deselect them. Use feedback below to request changes or additions.</span>
+                    </div>
+                </div>
+
+                <!-- Feedback Input -->
+                <div class="feedback-card" id="feedback-card">
+                    <div class="feedback-card-title">
+                        <span>💬</span> Feedback & Instructions
+                    </div>
+                    <textarea
+                        id="feedback-input"
+                        class="feedback-textarea"
+                        placeholder="Tell the AI what to change, add, or fix...&#10;&#10;e.g. 'Add a Guest role', 'Remove payments', 'Add billing fields to User'"
+                    ></textarea>
+                    <div class="feedback-actions">
+                        <button id="regenerate-btn" class="btn btn-secondary">
+                            🔄 Regenerate
+                        </button>
+                        <button id="proceed-btn" class="btn btn-success">
+                            ➡️ Proceed
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== Output Section (after Stage 4) ===== -->
         <section class="output-section" id="output-section">
             <div class="tabs">
                 <button class="tab active" data-tab="app-spec">📦 Full AppSpec</button>
@@ -147,7 +206,7 @@
             <div class="footer-inner">
                 <div class="footer-left">
                     <span class="footer-logo">⚡</span>
-                    <span>PromptForge v1.0.0</span>
+                    <span>PromptForge v2.0.0</span>
                 </div>
                 <div class="footer-right">
                     <span class="footer-tech">FastAPI</span>
